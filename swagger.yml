@@ -1,0 +1,134 @@
+swagger: "2.0"
+info:
+  description: This is the swagger file that goes with our server code
+  version: "1.0.0"
+  title: Swagger ReST Article
+consumes:
+  - application/json
+produces:
+  - application/json
+
+basePath: /api
+
+# Paths supported by the server application
+paths:
+  /people:
+    get:
+      operationId: entity.read_all
+      tags:
+        - Entity
+      summary: Read the entire list
+      description: Read the list
+      parameters:
+        - name: length
+          in: query
+          type: integer
+          description: Number of Entity
+          required: false
+        - name: offset
+          in: query
+          type: integer
+          description: Offset from beginning of list
+          required: false
+      responses:
+        200:
+          description: Successfully read list operation
+          schema:
+            type: array
+            items:
+              properties:
+                fname:
+                  type: string
+                lname:
+                  type: string
+                timestamp:
+                  type: string
+
+    post:
+      operationId: entity.create
+      tags:
+        - ENTITY
+      summary: Create a Entity and add to list
+      description: New Entity in the list
+      parameters:
+        - name: entity
+          in: body
+          description: Entity to create
+          required: True
+          schema:
+            type: object
+            properties:
+              fname:
+                type: string
+                description: Name of Entity to create
+              lname:
+                type: string
+                description: Place to create
+      responses:
+        201:
+          description: Successfully created
+
+  /entity/{place}:
+    get:
+      operationId: entity.read_one
+      tags:
+        - entity
+      summary: Read one entity from the list
+      description: Read one entity
+      parameters:
+        - name: place
+          in: path
+          description: place to get from the list
+          type: string
+          required: True
+      responses:
+        200:
+          description: Successful read operation
+          schema:
+            properties:
+              name:
+                type: string
+              place:
+                type: string
+              timestamp:
+                type: string
+
+    put:
+      operationId: entity.update
+      tags:
+        - entity
+      summary: Update an entity in the list
+      description: Update an entity in the list
+      parameters:
+        - name: place
+          in: path
+          description: Update place in entity in the list
+          type: string
+          required: True
+        - name: entity
+          in: body
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+              place:
+                type: string
+      responses:
+        200:
+          description: Successfully updated
+
+    delete:
+      operationId: entity.delete
+      tags:
+        - entity
+      summary: Delete from the list
+      description: Delete
+      parameters:
+        - name: place
+          in: path
+          type: string
+          required: True
+      responses:
+        200:
+          description: Successfully deleted
